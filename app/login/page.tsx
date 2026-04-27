@@ -1,0 +1,135 @@
+"use client";
+
+import Image from "next/image";
+import brandLogo from "@/public/assets/images/kci-institute-brand-logo.png";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import api from "@/lib/api";
+import { MdOutlineErrorOutline } from "react-icons/md";
+
+type LoginForm = {
+  username: string;
+  password: string;
+};
+
+export default function LoginPage() {
+  const [error, setError] = useState(false);
+  const router = useRouter();
+  const formik = useFormik<LoginForm>({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+
+    validationSchema: Yup.object({
+      username: Yup.string().required("Username is required"),
+      password: Yup.string()
+        .min(4, "Password must be at least 4 characters")
+        .required("Password is required"),
+    }),
+
+    onSubmit: async (values) => {
+      try {
+        await api.post("/login", values);
+
+        // success
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 100);
+      } catch (error) {
+        console.log("error: ", error);
+        // error case
+        setError(true);
+
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
+      }
+    },
+  });
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
+        {/* LOGO + TITLE */}
+        <div className="flex flex-col items-center mb-6">
+          <div className="flex items-center justify-center rounded-full text-xl font-bold">
+            <Image src={brandLogo} alt="kci-brand-logo-image" loading="eager" />
+          </div>
+          <h2 className="mt-5 text-xl font-semibold text-[#0b2c5f]">
+            KCI Admin Login
+          </h2>
+        </div>
+
+        {/* FORM */}
+        <form onSubmit={formik.handleSubmit}>
+          {/* USERNAME */}
+          <div className="mb-4">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
+                formik.touched.username && formik.errors.username
+                  ? "border-red-500 focus:ring-red-400"
+                  : "focus:ring-black"
+              }`}
+            />
+
+            {/* ERROR */}
+            {formik.touched.username && formik.errors.username && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.username}
+              </p>
+            )}
+          </div>
+
+          {/* PASSWORD */}
+          <div className="mb-4">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
+                formik.touched.password && formik.errors.password
+                  ? "border-red-500 focus:ring-red-400"
+                  : "focus:ring-black"
+              }`}
+            />
+
+            {/* ERROR */}
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.password}
+              </p>
+            )}
+          </div>
+
+          <hr />
+
+          {error && (
+            <p className="text-red-500 text-sm mt-3 p-2 border rounded transition-opacity duration-500 flex items-center">
+              <MdOutlineErrorOutline />{" "}
+              <span className="ms-1">Invalid Credential</span>
+            </p>
+          )}
+          {/* BUTTON */}
+          <button
+            type="submit"
+            className="w-full bg-[#0b2c5f] text-white p-2 mt-4 rounded hover:bg-[#ffa100] transition"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
