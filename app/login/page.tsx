@@ -1,13 +1,16 @@
 "use client";
 
-import Image from "next/image";
-import brandLogo from "@/public/assets/images/kci-institute-brand-logo.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import api from "@/lib/api";
+import Image from "next/image";
+
+import brandLogo from "@/public/assets/images/kci-institute-brand-logo.png";
 import { MdOutlineErrorOutline } from "react-icons/md";
+import { IoMdEye } from "react-icons/io";
+import { IoMdEyeOff } from "react-icons/io";
 
 type LoginForm = {
   username: string;
@@ -16,6 +19,7 @@ type LoginForm = {
 
 export default function LoginPage() {
   const [error, setError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const formik = useFormik<LoginForm>({
     initialValues: {
@@ -90,20 +94,33 @@ export default function LoginPage() {
           </div>
 
           {/* PASSWORD */}
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
+              className={` w-full p-2 border rounded focus:outline-none focus:ring-2 ${
                 formik.touched.password && formik.errors.password
                   ? "border-red-500 focus:ring-red-400"
                   : "focus:ring-black"
               }`}
+              maxLength={20}
             />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-2.75 right-3   text-sm text-gray-600"
+            >
+              {showPassword ? (
+                <IoMdEye size={20} className="cursor-pointer" />
+              ) : (
+                <IoMdEyeOff size={20} className="cursor-pointer" />
+              )}
+            </button>
 
             {/* ERROR */}
             {formik.touched.password && formik.errors.password && (
