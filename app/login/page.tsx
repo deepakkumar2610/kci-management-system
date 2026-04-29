@@ -29,9 +29,7 @@ export default function LoginPage() {
 
     validationSchema: Yup.object({
       username: Yup.string().required("Username is required"),
-      password: Yup.string()
-        .min(4, "Password must be at least 4 characters")
-        .required("Password is required"),
+      password: Yup.string().required("Password is required"),
     }),
 
     onSubmit: async (values) => {
@@ -135,7 +133,7 @@ export default function LoginPage() {
           {error && (
             <p className="text-red-500 text-sm mt-3 p-2 border rounded transition-opacity duration-500 flex items-center">
               <MdOutlineErrorOutline />{" "}
-              <span className="ms-1">Invalid Credential</span>
+              <span className="ms-1">Invalid Credentials</span>
             </p>
           )}
           {/* BUTTON */}

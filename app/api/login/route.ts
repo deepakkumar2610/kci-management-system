@@ -33,12 +33,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { username, password } = await req.json();
-  console.log("username, password: ", username, password);
 
-  await connectDB(); // 👈 connection happens HERE
+  await connectDB(); // connection happens HERE
 
   const admin = await Admin.findOne({ username });
-  console.log("admin: ", admin);
 
   if (!admin) {
     return NextResponse.json(

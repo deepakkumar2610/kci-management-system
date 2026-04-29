@@ -11,18 +11,77 @@ import { MdLogout } from "react-icons/md";
 import api from "@/lib/api";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { title } from "process";
 
 export default function Sidebar() {
   const pathname = usePathname();
 
+  // const menu = [
+  //   { title: "", name: "Dashboard", icon: MdDashboard, path: "/dashboard" },
+  //   {
+  //     name: "Students",
+  //     icon: PiStudentFill,
+  //     path: "/dashboard/students",
+  //   },
+  //   { name: "Fees", icon: MdPayment, path: "/dashboard/fees" },
+  // ];
+
   const menu = [
-    { name: "Dashboard", icon: MdDashboard, path: "/dashboard" },
     {
-      name: "Students",
-      icon: PiStudentFill,
-      path: "/dashboard/students",
+      title: "KCI Admin Dashboard",
+      subMenu: [
+        {
+          name: "Dashboard",
+          icon: MdDashboard,
+          path: "/dashboard",
+        },
+      ],
     },
-    { name: "Fees", icon: MdPayment, path: "/dashboard/fees" },
+    {
+      title: "Manage Class",
+      subMenu: [
+        {
+          name: "Add Classes / Grades",
+          icon: MdDashboard,
+          path: "/dashboard/grades/add",
+        },
+        {
+          name: "Class Details",
+          icon: MdDashboard,
+          path: "/dashboard/grades",
+        },
+      ],
+    },
+    {
+      title: "Manage Students",
+      subMenu: [
+        {
+          name: "Add Student",
+          icon: MdDashboard,
+          path: "/dashboard/students/add",
+        },
+        {
+          name: "Student Details",
+          icon: PiStudentFill,
+          path: "/dashboard/students",
+        },
+      ],
+    },
+    {
+      title: "Manage Fees",
+      subMenu: [
+        {
+          name: "Add Fees",
+          icon: MdDashboard,
+          path: "/dashboard/fees/add",
+        },
+        {
+          name: "Student Fees Details",
+          icon: MdPayment,
+          path: "/dashboard/fees",
+        },
+      ],
+    },
   ];
 
   const handleLogout = async () => {
@@ -38,34 +97,49 @@ export default function Sidebar() {
   return (
     <div className="h-screen flex flex-col">
       {/* TOP LOGO */}
-      <div className="bg-orange-100 p-5">
+      <div className="bg-orange-100 py-2 flex w-full justify-center-safe">
         <Image src={brandLogo} alt="kci-branding-logo" height={80} />
       </div>
 
       {/* SIDEBAR CONTENT */}
-      <div className="flex-1 p-5 flex flex-col justify-between overflow-hidden">
+      <div className="flex-1 flex flex-col justify-between overflow-auto">
         {/* MENU */}
-        <div>
-          <h2 className="text-white text-sm mb-4">KCI Admin Panel</h2>
+        <div className="mt-5">
+          {menu.map(({ title, subMenu }) => (
+            <div key={title} className="mb-5">
+              <h3 className="text-gray-400 px-4 mb-3">{title}</h3>
 
-          {menu.map(({ path, icon: Icon, name }) => (
-            <div key={path} className="my-3">
-              <Link href={path} className="flex items-center">
-                <Icon
-                  size={30}
-                  className={`${
-                    path === pathname ? "text-[#ffa200]" : "text-white"
-                  }`}
-                />
+              {subMenu &&
+                subMenu.map(({ name, icon: Icon, path }) => (
+                  <div
+                    key={path}
+                    // className="my-3 bg-amber-200 ps-5 py-2 me-5 rounded-e-full"
+                    className={`mt-1 ps-5 py-2 me-5 rounded-e-full hover:bg-gray-500 ${
+                      path === pathname
+                        ? "bg-orange-100 hover:bg-orange-100"
+                        : ""
+                    }`}
+                  >
+                    <Link href={path} className="flex items-center">
+                      <Icon
+                        size={30}
+                        className={`${
+                          path === pathname ? "text-[#ffa200]" : "text-white"
+                        }`}
+                      />
 
-                <span
-                  className={`ms-5 text-lg ${
-                    path === pathname ? "text-[#ffa200]" : "text-white"
-                  }`}
-                >
-                  {name}
-                </span>
-              </Link>
+                      <span
+                        className={`ms-5 text-lg ${
+                          path === pathname
+                            ? "text-[#ffa200] font-bold"
+                            : "text-gray-200"
+                        }`}
+                      >
+                        {name}
+                      </span>
+                    </Link>
+                  </div>
+                ))}
             </div>
           ))}
         </div>
