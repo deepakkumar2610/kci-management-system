@@ -1,4 +1,5 @@
 import Sidebar from "@/app/components/Sidebar";
+import Breadcrumb from "../components/Breadcrumb";
 
 export default function DashboardLayout({
   children,
@@ -15,6 +16,7 @@ export default function DashboardLayout({
 
         {/* RIGHT SIDE */}
         <div style={{ flex: 1, padding: "20px", background: "#f5f6f8" }}>
+          <Breadcrumb></Breadcrumb>
           {children}
         </div>
       </div>

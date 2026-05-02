@@ -1,3 +1,3 @@
 export default function FeesPage() {
-  return <h1>Fees Page</h1>;
+  return <h1>Fees Details Page</h1>;
 }

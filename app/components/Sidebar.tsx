@@ -7,6 +7,12 @@ import { MdDashboard } from "react-icons/md";
 import { PiStudentFill } from "react-icons/pi";
 import { MdPayment } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
+import { MdAssignmentAdd } from "react-icons/md";
+import { MdGroupAdd } from "react-icons/md";
+import { FaAddressCard } from "react-icons/fa";
+import { BiDetail } from "react-icons/bi";
+import { MdAddCard } from "react-icons/md";
+import { TbReceiptRupeeFilled } from "react-icons/tb";
 
 import api from "@/lib/api";
 import Link from "next/link";
@@ -42,13 +48,13 @@ export default function Sidebar() {
       subMenu: [
         {
           name: "Add Classes / Grades",
-          icon: MdDashboard,
+          icon: MdAssignmentAdd,
           path: "/dashboard/grades/add",
         },
         {
-          name: "Class Details",
-          icon: MdDashboard,
-          path: "/dashboard/grades",
+          name: "Classes Details",
+          icon: BiDetail,
+          path: "/dashboard/grades/details",
         },
       ],
     },
@@ -57,13 +63,13 @@ export default function Sidebar() {
       subMenu: [
         {
           name: "Add Student",
-          icon: MdDashboard,
+          icon: MdGroupAdd,
           path: "/dashboard/students/add",
         },
         {
           name: "Student Details",
-          icon: PiStudentFill,
-          path: "/dashboard/students",
+          icon: FaAddressCard,
+          path: "/dashboard/students/details",
         },
       ],
     },
@@ -72,13 +78,13 @@ export default function Sidebar() {
       subMenu: [
         {
           name: "Add Fees",
-          icon: MdDashboard,
+          icon: MdAddCard,
           path: "/dashboard/fees/add",
         },
         {
           name: "Student Fees Details",
-          icon: MdPayment,
-          path: "/dashboard/fees",
+          icon: TbReceiptRupeeFilled,
+          path: "/dashboard/fees/details",
         },
       ],
     },
