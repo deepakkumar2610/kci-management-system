@@ -7,7 +7,6 @@ export default function Breadcrumb() {
   const pathname = usePathname();
 
   const pathParts = pathname.split("/").filter(Boolean);
-  console.log("pathParts: ", pathParts);
 
   return (
     <nav className="text-sm mb-4 border p-5 rounded">

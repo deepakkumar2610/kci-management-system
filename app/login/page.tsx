@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import api from "@/lib/api";
+import apiHandler from "@/lib/api";
 import Image from "next/image";
 
 import brandLogo from "@/public/assets/images/kci-institute-brand-logo.png";
@@ -34,7 +34,7 @@ export default function LoginPage() {
 
     onSubmit: async (values) => {
       try {
-        await api.post("/login", values);
+        await apiHandler.post("/login", values);
 
         // success
         setTimeout(() => {

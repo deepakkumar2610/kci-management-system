@@ -14,7 +14,7 @@ import { BiDetail } from "react-icons/bi";
 import { MdAddCard } from "react-icons/md";
 import { TbReceiptRupeeFilled } from "react-icons/tb";
 
-import api from "@/lib/api";
+import apiHandler from "@/lib/api";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { title } from "process";
@@ -92,7 +92,7 @@ export default function Sidebar() {
 
   const handleLogout = async () => {
     try {
-      await api.get("/logout");
+      await apiHandler.get("/logout");
 
       window.location.href = "/login";
     } catch (error) {
