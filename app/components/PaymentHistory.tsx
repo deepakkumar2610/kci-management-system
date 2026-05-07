@@ -18,13 +18,18 @@ export default function PaymentHistory({ payments }: any) {
 
         <tbody>
           {payments.map((p: any) => (
-            <tr key={p._id} className="border-b text-center">
-              <td>{new Date(p.paymentDate).toLocaleDateString()}</td>
-              <td>₹{p.amountPaid}</td>
-              <td>{p.paymentMode}</td>
+            <tr key={p?._id} className="border-b text-center">
+              {/* <td>{new Date(p.paymentDate).toLocaleDateString()}</td> */}
+              <td>
+                {p?.paymentDate
+                  ? new Date(p.paymentDate).toISOString().split("T")[0]
+                  : "-"}
+              </td>
+              <td>₹{p?.amountPaid}</td>
+              <td>{p?.paymentMode}</td>
               <td>
                 <button
-                  onClick={() => window.open(`/receipt/${p._id}`)}
+                  onClick={() => window.open(`/receipt/${p?._id}`)}
                   className="text-blue-500 underline"
                 >
                   View

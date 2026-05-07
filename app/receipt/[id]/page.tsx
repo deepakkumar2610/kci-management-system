@@ -1,69 +1,51 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import PrintButton from "@/app/components/PrintButton";
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+import ReceiptPrint from "@/app/components/ReceiptPrint";
 import { connectDB } from "@/lib/mongodb";
-import Payment from "@/models/Payment";
-import Student from "@/models/Student";
-import mongoose from "mongoose";
 
-export default async function ReceiptPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  // ✅ unwrap params
+import Student from "@/models/Student";
+import Payment from "@/models/Payment";
+
+import "@/models/Class";
+
+export default async function Page({ params }: { params: { id: string } }) {
+  await connectDB();
   const { id } = await params;
 
-  await connectDB();
+  const paymentId = id;
 
-  const payment = await Payment.findOne({
-    _id: new mongoose.Types.ObjectId(id),
-  }).populate("studentId");
+  // 🔹 1. Get current payment
+  const payment = await Payment.findById(paymentId).lean();
 
-  if (!payment) {
-    return <div className="p-6">❌ Payment not found</div>;
-  }
+  if (!payment) return <div>Payment not found</div>;
 
-  const student = payment.studentId;
+  // 🔹 2. Get student
+  const student = await Student.findById(payment.studentId)
+    .populate("classId")
+    .lean();
+
+  if (!student) return <div>Student not found</div>;
+
+  // ✅ Convert to plain object
+  const studentData = JSON.parse(JSON.stringify(student));
+
+  // 🔹 3. Get ALL payments of this student
+  const payments = await Payment.find({
+    studentId: payment.studentId,
+  }).lean();
+
+  // 🔹 4. Calculate total paid
+  const totalPaid = payments.reduce((sum, p) => sum + p.amountPaid, 0);
+
+  // 🔹 5. Calculate remaining
+  const remaining = student.fees.finalFees - totalPaid;
 
   return (
-    <div className="p-6 max-w-xl mx-auto border">
-      <h1 className="text-xl font-bold text-center mb-4">Fee Receipt</h1>
-
-      <p>
-        <strong>Receipt No:</strong> {payment.receiptNumber}
-      </p>
-      <p>
-        <strong>Date:</strong> {new Date(payment.paymentDate).toDateString()}
-      </p>
-
-      <hr className="my-3" />
-
-      <p>
-        <strong>Student:</strong> {student.fullName}
-      </p>
-      <p>
-        <strong>Contact:</strong> {student.contact}
-      </p>
-
-      <hr className="my-3" />
-
-      <p>
-        <strong>Amount Paid:</strong> ₹{payment.amountPaid}
-      </p>
-      <p>
-        <strong>Mode:</strong> {payment.paymentMode}
-      </p>
-      <p>
-        <strong>Installment:</strong> {payment.installmentNumber}
-      </p>
-
-      {/* <button
-        onClick={() => window.print()}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Print Receipt
-      </button> */}
-      <PrintButton />
-    </div>
+    <ReceiptPrint
+      student={studentData}
+      payment={payment}
+      payments={payments}
+      totalPaid={totalPaid}
+      remaining={remaining}
+    />
   );
 }

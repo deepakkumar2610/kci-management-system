@@ -15,6 +15,7 @@ const feeSchema = new Schema(
       type: Number,
       default: 1,
     },
+    installmentAmount: Number,
   },
   { timestamps: true },
 );

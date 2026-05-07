@@ -4,8 +4,6 @@ import Image from "next/image";
 import brandLogo from "@/public/assets/images/kci-institute-brand-logo.png";
 
 import { MdDashboard } from "react-icons/md";
-import { PiStudentFill } from "react-icons/pi";
-import { MdPayment } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { MdAssignmentAdd } from "react-icons/md";
 import { MdGroupAdd } from "react-icons/md";
@@ -17,7 +15,6 @@ import { TbReceiptRupeeFilled } from "react-icons/tb";
 import apiHandler from "@/lib/api";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { title } from "process";
 
 export default function Sidebar() {
   const pathname = usePathname();

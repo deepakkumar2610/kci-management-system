@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Payment from "@/models/Payment";
+import { generateReceiptNumber } from "@/lib/generateReceiptNumber";
 
-function generateReceiptNumber() {
-  return "RCPT-" + Date.now();
-}
+// function generateReceiptNumber() {
+//   return "KCI-" + Date.now();
+// }
+
+const receiptNumber = await generateReceiptNumber();
+console.log("receiptNumber: ", receiptNumber);
 
 // ➕ CREATE PAYMENT
 export async function POST(req: NextRequest) {
@@ -14,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const payment = await Payment.create({
       ...body,
-      receiptNumber: generateReceiptNumber(),
+      receiptNumber: receiptNumber,
     });
 
     return NextResponse.json({ success: true, data: payment });

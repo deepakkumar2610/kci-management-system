@@ -1,5 +1,6 @@
 // models/Class.ts
 import mongoose, { Schema } from "mongoose";
+import "@/models/Class";
 
 const classSchema = new Schema({
   name: { type: String, required: true },

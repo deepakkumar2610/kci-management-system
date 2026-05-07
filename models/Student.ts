@@ -29,12 +29,33 @@ const studentSchema = new Schema(
     ],
     medium: { type: String },
 
-    // 🔥 Fee Snapshot (CRITICAL DESIGN)
     fees: {
-      totalFees: { type: Number, required: true },
-      discount: { type: Number, default: 0 },
-      finalFees: { type: Number, required: true },
-      installments: { type: Number, default: 1 },
+      totalFees: Number,
+      discount: Number,
+      finalFees: Number,
+
+      paidAmount: {
+        type: Number,
+        default: 0,
+      },
+
+      remainingAmount: {
+        type: Number,
+        default: function () {
+          return this.finalFees || 0;
+        },
+      },
+
+      installments: [
+        {
+          amount: Number,
+          status: {
+            type: String,
+            default: "pending",
+          },
+          paidDate: Date,
+        },
+      ],
     },
 
     // 🔹 Optional Info

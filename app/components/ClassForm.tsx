@@ -25,7 +25,6 @@ export default function ClassForm() {
 
   return (
     <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-4">
-
       <input
         name="name"
         placeholder="Class (e.g. 10th)"
@@ -49,6 +48,7 @@ export default function ClassForm() {
         className="p-2 border rounded"
       >
         <option value="school">School</option>
+        <option value="junior-college">Junior College</option>
         <option value="entrance">Entrance</option>
       </select>
 

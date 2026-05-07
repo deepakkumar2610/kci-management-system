@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
     const body = await req.json();
-    console.log("body: ", body);
 
     const newClass = await Class.create(body);
 

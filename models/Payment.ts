@@ -13,27 +13,15 @@ const paymentSchema = new Schema(
       required: true,
     },
 
-    paymentDate: {
+    paymentMode: String,
+    txnId: String,
+
+    paidAt: {
       type: Date,
       default: Date.now,
     },
-
-    paymentMode: {
-      type: String,
-      enum: ["cash", "upi", "card"],
-      default: "cash",
-    },
-
-    installmentNumber: {
-      type: Number,
-    },
-
-    receiptNumber: {
-      type: String,
-      unique: true,
-    },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.models.Payment ||

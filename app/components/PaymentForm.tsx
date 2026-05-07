@@ -19,7 +19,7 @@ export default function PaymentForm() {
       studentId: "",
       amountPaid: "",
       paymentMode: "cash",
-      installmentNumber: 1,
+      installmentNumber: "",
     },
 
     onSubmit: async (values, { resetForm }) => {
@@ -77,6 +77,7 @@ export default function PaymentForm() {
       <input
         type="number"
         name="installmentNumber"
+        placeholder="Installment Number"
         onChange={formik.handleChange}
         value={formik.values.installmentNumber}
         className="p-2 border rounded"
