@@ -17,26 +17,38 @@ export default function PaymentHistory({ payments }: any) {
         </thead>
 
         <tbody>
-          {payments.map((p: any) => (
-            <tr key={p?._id} className="border-b text-center">
-              {/* <td>{new Date(p.paymentDate).toLocaleDateString()}</td> */}
-              <td>
-                {p?.paymentDate
-                  ? new Date(p.paymentDate).toISOString().split("T")[0]
-                  : "-"}
-              </td>
-              <td>₹{p?.amountPaid}</td>
-              <td>{p?.paymentMode}</td>
-              <td>
-                <button
-                  onClick={() => window.open(`/receipt/${p?._id}`)}
-                  className="text-blue-500 underline"
-                >
-                  View
-                </button>
+          {payments.length > 0 ? (
+            payments.map((p: any) => (
+              <tr key={p?._id} className="border-b text-center">
+                {/* <td>{new Date(p.paymentDate).toLocaleDateString()}</td> */}
+                <td>
+                  {p?.paidAt
+                    ? new Date(p.paidAt).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })
+                    : "-"}
+                </td>
+                <td>₹{p?.amountPaid}</td>
+                <td>{p?.paymentMode}</td>
+                <td>
+                  <button
+                    onClick={() => window.open(`/receipt/${p?._id}`)}
+                    className="text-blue-500 underline"
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="text-center py-6 text-gray-500 ">
+                No payment history found !
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

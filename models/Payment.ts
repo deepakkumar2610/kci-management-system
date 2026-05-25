@@ -20,8 +20,14 @@ const paymentSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+
+    receiptNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.models.Payment ||

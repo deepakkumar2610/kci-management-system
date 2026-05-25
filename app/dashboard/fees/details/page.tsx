@@ -35,7 +35,7 @@ export default function StudentsFeeDetailsPage() {
       {/* 🔍 Search */}
       <input
         type="text"
-        placeholder="Search by name..."
+        placeholder="Search by name or contact..."
         className="w-full p-2 border rounded"
         value={search}
         onChange={(e) => setSearch(e.target.value)}

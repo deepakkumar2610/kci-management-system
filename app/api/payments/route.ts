@@ -7,23 +7,47 @@ import { generateReceiptNumber } from "@/lib/generateReceiptNumber";
 //   return "KCI-" + Date.now();
 // }
 
-const receiptNumber = await generateReceiptNumber();
-console.log("receiptNumber: ", receiptNumber);
+// const receiptNumber = await generateReceiptNumber();
+// console.log("receiptNumber: ", receiptNumber);
 
 // ➕ CREATE PAYMENT
 export async function POST(req: NextRequest) {
+  // try {
+  //   await connectDB();
+  //   const body = await req.json();
+
+  //   const payment = await Payment.create({
+  //     ...body,
+  //     receiptNumber,
+  //   });
+
+  //   return NextResponse.json({ success: true, data: payment });
+  // } catch (error) {
+  //   console.error(error);
+  //   return NextResponse.json({ success: false }, { status: 500 });
+  // }
   try {
     await connectDB();
+
     const body = await req.json();
 
+    // ✅ Generate receipt number
+    const receiptNumber = await generateReceiptNumber();
+    console.log("receiptNumber: ", receiptNumber);
+
+    // ✅ Create payment
     const payment = await Payment.create({
       ...body,
-      receiptNumber: receiptNumber,
+      receiptNumber,
     });
 
-    return NextResponse.json({ success: true, data: payment });
+    return Response.json(payment);
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ success: false }, { status: 500 });
+    console.log("PAYMENT ERROR:", error);
+
+    return Response.json(
+      { error: "Failed to create payment" },
+      { status: 500 },
+    );
   }
 }

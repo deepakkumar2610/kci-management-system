@@ -56,8 +56,6 @@ export default function InvoiceReceipt({
 }: Props) {
   const fees = student?.fees;
   const amountPaid = payment?.amountPaid;
-  // console.log("payment: ", fees);
-  console.log("amountPaid: ", payment);
   return (
     <div className="max-w-3xl mx-auto p-6 mt-5   bg-white text-black border rounded-lg">
       {/* HEADER */}
@@ -72,7 +70,7 @@ export default function InvoiceReceipt({
               Fee Receipt [{payment?.receiptNumber}]
             </h2>
             <p className="text-sm">
-              Receipt Date: {/* {new Date().toLocaleDateString()} */}
+              Receipt Date:
               {new Intl.DateTimeFormat("en-IN", {
                 day: "2-digit",
                 month: "short",

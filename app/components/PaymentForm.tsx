@@ -24,6 +24,7 @@ export default function PaymentForm() {
 
     onSubmit: async (values, { resetForm }) => {
       const res = await apiHandler.post("/payments", values);
+      console.log("res: ", res);
 
       if (!res.data?.data?._id) {
         alert("Payment failed ❌");
