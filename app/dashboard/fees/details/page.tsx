@@ -17,7 +17,6 @@ export default function StudentsFeeDetailsPage() {
       try {
         setLoading(true);
         const res = await apiHandler.get(`/students?search=${search}`);
-        console.log("API DATA:", res.data.data); // ✅ debug
         setStudents(res.data.data);
         setLoading(false);
       } catch (err) {

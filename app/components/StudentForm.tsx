@@ -11,11 +11,8 @@ import SelectField from "./SelectField";
 
 export default function StudentForm() {
   const [classes, setClasses] = useState([]);
-  console.log("classes: ", classes);
   const [batches, setBatches] = useState([]);
-  console.log("batches: ", batches);
   const [subjects, setSubjects] = useState([]);
-  console.log("subjects: ", subjects);
   const [fees, setFees] = useState<any>(null);
 
   // 🔹 Load classes initially

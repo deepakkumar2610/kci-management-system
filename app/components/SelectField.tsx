@@ -5,7 +5,6 @@ export default function SelectField({
   options,
   labelKey = "name",
 }: any) {
-  console.log("formik: ", formik);
   return (
     <select
       name={name}

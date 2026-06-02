@@ -24,11 +24,12 @@ export default function PaymentForm() {
 
     onSubmit: async (values, { resetForm }) => {
       const res = await apiHandler.post("/payments", values);
-      console.log("res: ", res);
 
-      if (!res.data?.data?._id) {
+      if (!res.data?._id) {
         alert("Payment failed ❌");
         return;
+      } else {
+        alert("Payment Successful ✅");
       }
 
       // 🔥 Open receipt page

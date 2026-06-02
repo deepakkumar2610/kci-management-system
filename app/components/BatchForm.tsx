@@ -7,7 +7,6 @@ import apiHandler from "@/lib/api";
 
 export default function BatchForm() {
   const [classes, setClasses] = useState<any[]>([]);
-  console.log("classes: ", classes);
 
   useEffect(() => {
     apiHandler.get("/classes").then((res) => {

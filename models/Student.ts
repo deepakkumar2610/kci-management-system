@@ -48,12 +48,14 @@ const studentSchema = new Schema(
 
       installments: [
         {
-          amount: Number,
-          status: {
-            type: String,
-            default: "pending",
-          },
-          paidDate: Date,
+          // amount: Number,
+          // status: {
+          //   type: String,
+          //   default: "pending",
+          // },
+          // paidDate: Date,
+          type: Number,
+          default: 1,
         },
       ],
     },
