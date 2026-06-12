@@ -1,18 +1,26 @@
+"use client";
+import { useState } from "react";
 import ClassForm from "@/app/components/ClassForm";
 import BatchForm from "@/app/components/BatchForm";
 import SubjectForm from "@/app/components/SubjectForm";
 import FeeForm from "@/app/components/FeeForm";
 
 export default function Page() {
-  return (
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const onSuccessRefresh = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+
+  return (  
     <>
-      <ClassForm />
+      <ClassForm onSuccessRefresh={onSuccessRefresh} />
       <hr className="my-5" />
-      <BatchForm />
+      <BatchForm refreshKey={refreshKey} />
       <hr className="my-5" />
-      <SubjectForm />
+      <SubjectForm refreshKey={refreshKey} />
       <hr className="my-5" />
-      <FeeForm />
+      <FeeForm refreshKey={refreshKey} />
     </>
   );
 }

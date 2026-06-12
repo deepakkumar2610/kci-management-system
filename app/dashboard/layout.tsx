@@ -15,7 +15,7 @@ export default function DashboardLayout({
         </div>
 
         {/* RIGHT SIDE */}
-        <div style={{ flex: 1, padding: "20px", background: "#f5f6f8" }}>
+        <div className="flex-1 p-5 bg-[#ff6f8] overflow-y-auto scroll-smooth">
           <Breadcrumb></Breadcrumb>
           {children}
         </div>

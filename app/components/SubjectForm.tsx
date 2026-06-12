@@ -5,14 +5,19 @@ import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import apiHandler from "@/lib/api";
 
-export default function SubjectForm() {
+type SubjectFormProps = {
+  refreshKey: number;
+};
+
+export default function SubjectForm({ refreshKey }: SubjectFormProps) {
   const [classes, setClasses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     apiHandler.get("/classes").then((res) => {
       setClasses(res.data.data);
     });
-  }, []);
+  }, [refreshKey]);
 
   const formik = useFormik({
     initialValues: {
@@ -21,13 +26,25 @@ export default function SubjectForm() {
     },
 
     onSubmit: async (values, { resetForm }) => {
-      await apiHandler.post("/subjects", values);
-      alert("Subject added ✅");
-      resetForm();
+      try {
+        setLoading(true);
+
+        const res = await apiHandler.post("/subjects", values);
+
+        alert(res.data?.message || "Subject added successfully ✅");
+
+        resetForm();
+      } catch (error: any) {
+        alert(error?.response?.data?.message || "Failed to add subject! ");
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
-  return (
+  return loading ? (
+    <h1>Loading...</h1>
+  ) : (
     <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-4">
       <select
         name="classId"
@@ -51,8 +68,11 @@ export default function SubjectForm() {
         className="p-2 border rounded"
       />
 
-      <button className="col-span-2 bg-orange-500 text-white p-2 rounded">
-        Save Subject
+      <button
+        className="col-span-2 bg-orange-500 text-white p-2 rounded"
+        disabled={loading}
+      >
+        {loading ? "Saving... " : "Save Subject"}
       </button>
     </form>
   );

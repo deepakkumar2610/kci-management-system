@@ -3,6 +3,7 @@
 import Image from "next/image";
 import brandLogo from "@/public/assets/images/kci-institute-brand-logo.png";
 import WatermarkLogo from "@/public/assets/images/logo.png";
+import ownerSignature from "@/public/assets/images/signature_of_owner.png";
 
 /* ✅ TYPES */
 type Installment = {
@@ -70,7 +71,7 @@ export default function InvoiceReceipt({
               Fee Receipt [{payment?.receiptNumber}]
             </h2>
             <p className="text-sm">
-              Receipt Date:
+              Receipt Date:{" "}
               {new Intl.DateTimeFormat("en-IN", {
                 day: "2-digit",
                 month: "short",
@@ -98,19 +99,19 @@ export default function InvoiceReceipt({
 
         <div className="grid grid-cols-2 gap-2 text-sm">
           <p>
-            <b>Name:</b> {student.fullName}
+            <b>Name:</b> {student?.fullName}
           </p>
           <p>
-            <b>Class:</b> {student.classId?.name || "-"}
+            <b>Class:</b> {student?.classId?.name || "-"}
           </p>
           <p>
-            <b>Medium:</b> {student.medium}
+            <b>Medium:</b> {student?.medium}
           </p>
           <p>
-            <b>Parent Name:</b> {student.parentName}
+            <b>Parent Name:</b> {student?.parentName}
           </p>
           <p>
-            <b>Parent Contact:</b> {student.parentContact}
+            <b>Parent Contact:</b> {student?.parentContact}
           </p>
         </div>
       </div>
@@ -128,12 +129,14 @@ export default function InvoiceReceipt({
               <td className="p-2 text-right">₹{fees.totalFees}</td>
             </tr>
 
-            <tr className="border-t">
-              <td className="p-2">Discount</td>
-              <td className="p-2 text-right text-red-600">
-                - ₹{fees.discount}
-              </td>
-            </tr>
+            {fees.discount !== 0 && (
+              <tr className="border-t">
+                <td className="p-2">Discount</td>
+                <td className="p-2 text-right text-red-600">
+                  - ₹{fees.discount}
+                </td>
+              </tr>
+            )}
 
             <tr className="border-t font-medium">
               <td className="p-2">Final Fees</td>
@@ -175,10 +178,24 @@ export default function InvoiceReceipt({
           <p>* This is a computer-generated receipt</p>
         </div>
 
-        <div className="text-center">
-          <p className="border-t w-40 mt-8"></p>
-          <p className="text-sm">Authorized Signature</p>
+        <div className="text-center flex flex-col items-center">
+          <Image
+            src={ownerSignature}
+            alt="signature-of-owner"
+            className="w-28 -mb-3"
+          />
+
+          <div className="w-40 border-t"></div>
+
+          <p className="text-sm mt-1">Authorized Signature</p>
         </div>
+      </div>
+      <div className="mt-6 text-center text-sm text-gray-700 italic">
+        <p>
+          🙏 Thank you for your payment and for being a part of the KCI family.
+          Your trust and support motivate us to provide the best educational
+          experience for our students.
+        </p>
       </div>
     </div>
   );
