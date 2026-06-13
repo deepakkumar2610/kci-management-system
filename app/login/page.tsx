@@ -32,22 +32,25 @@ export default function LoginPage() {
       password: Yup.string().required("Password is required"),
     }),
 
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
-        await apiHandler.post("/login", values);
+        setError(false);
 
-        // success
-        setTimeout(() => {
+        const res = await apiHandler.post("/login", values);
+
+        if (res.status === 200) {
           router.push("/dashboard");
-        }, 100);
+        }
       } catch (error) {
-        console.log("error: ", error);
-        // error case
+        console.error(error);
+
         setError(true);
 
         setTimeout(() => {
           setError(false);
         }, 3000);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -139,9 +142,10 @@ export default function LoginPage() {
           {/* BUTTON */}
           <button
             type="submit"
-            className="w-full bg-[#0b2c5f] text-white p-2 mt-4 rounded hover:bg-[#ffa100] transition"
+            disabled={formik.isSubmitting}
+            className="cursor-pointer w-full bg-[#0b2c5f] text-white p-2 mt-4 rounded hover:bg-[#ffa100] transition"
           >
-            Login
+            {formik.isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>

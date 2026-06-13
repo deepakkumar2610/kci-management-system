@@ -14,20 +14,11 @@ import { TbReceiptRupeeFilled } from "react-icons/tb";
 
 import apiHandler from "@/lib/api";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Sidebar() {
   const pathname = usePathname();
-
-  // const menu = [
-  //   { title: "", name: "Dashboard", icon: MdDashboard, path: "/dashboard" },
-  //   {
-  //     name: "Students",
-  //     icon: PiStudentFill,
-  //     path: "/dashboard/students",
-  //   },
-  //   { name: "Fees", icon: MdPayment, path: "/dashboard/fees" },
-  // ];
+  const router = useRouter();
 
   const menu = [
     {
@@ -91,9 +82,9 @@ export default function Sidebar() {
     try {
       await apiHandler.get("/logout");
 
-      window.location.href = "/login";
+      router.replace("/login");
     } catch (error) {
-      console.error("Logout failed", error);
+      console.error("Logout failed:", error);
     }
   };
 
@@ -148,12 +139,12 @@ export default function Sidebar() {
         </div>
 
         {/* LOGOUT (BOTTOM) */}
-        <div className="text-center border-t pt-5">
+        <div className=" border-t pt-5 mb-5">
           <h2
             onClick={handleLogout}
             className="cursor-pointer flex items-center justify-center text-white hover:text-red-400 transition"
           >
-            <MdLogout size={30} />
+            <MdLogout size={25} />
             <span className="ms-2">Logout</span>
           </h2>
         </div>
