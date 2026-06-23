@@ -25,7 +25,7 @@ export default function SubjectForm({ refreshKey }: SubjectFormProps) {
       name: "",
     },
 
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         setLoading(true);
 
@@ -38,6 +38,7 @@ export default function SubjectForm({ refreshKey }: SubjectFormProps) {
         alert(error?.response?.data?.message || "Failed to add subject! ");
       } finally {
         setLoading(false);
+        setSubmitting(false);
       }
     },
   });
@@ -72,7 +73,7 @@ export default function SubjectForm({ refreshKey }: SubjectFormProps) {
         className="col-span-2 bg-orange-500 text-white p-2 rounded"
         disabled={loading}
       >
-        {loading ? "Saving... " : "Save Subject"}
+        {formik.isSubmitting ? "Saving... " : "Save Subject"}
       </button>
     </form>
   );

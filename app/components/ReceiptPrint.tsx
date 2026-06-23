@@ -30,6 +30,12 @@ export default function ReceiptPrint({
   return (
     <div className="p-4">
       {/* PRINT BUTTON */}
+      <button
+        onClick={handlePrint}
+        className="cursor-pointer rounded bg-[#ffa200] px-4 py-2 text-white"
+      >
+        Download PDF
+      </button>
 
       {/* RECEIPT */}
       <div ref={printRef}>
@@ -41,12 +47,6 @@ export default function ReceiptPrint({
           remaining={remaining}
         />
       </div>
-      <button
-        onClick={handlePrint}
-        className="absolute top-10 left-10 mb-4 rounded bg-[#ffa200] px-4 py-2 text-white"
-      >
-        Download PDF
-      </button>
     </div>
   );
 }

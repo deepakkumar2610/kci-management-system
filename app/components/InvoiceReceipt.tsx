@@ -51,14 +51,13 @@ type Props = {
 export default function InvoiceReceipt({
   student,
   payment,
-  payments,
   totalPaid,
   remaining,
 }: Props) {
   const fees = student?.fees;
   const amountPaid = payment?.amountPaid;
   return (
-    <div className="max-w-3xl mx-auto p-6 mt-5   bg-white text-black border rounded-lg">
+    <div className="relative z-10 max-w-3xl mx-auto p-6 mt-5   bg-white text-black border rounded-lg">
       {/* HEADER */}
       <div className="flex justify-between items-center border-b pb-4">
         <div className="items-center gap-3">
@@ -159,17 +158,13 @@ export default function InvoiceReceipt({
           </tbody>
         </table>
       </div>
-      <div className="absolute -top-70 inset-0 flex items-center justify-center pointer-events-none">
-        <div className="opacity-10">
-          <Image src={WatermarkLogo} alt="Watermark-logo" className="w-120" />
-        </div>
+      <div className="absolute inset-0 flex justify-center top-30 pointer-events-none">
+        <Image
+          src={WatermarkLogo}
+          alt="Watermark-logo"
+          className="w-120 opacity-10 object-contain -translate-y-16"
+        />
       </div>
-
-      {remaining === 0 && (
-        <div className="absolute bottom-100 left-280 border-4 border-green-500 px-6 py-2 text-5xl font-bold text-green-500 opacity-20">
-          PAID
-        </div>
-      )}
 
       {/* FOOTER */}
       <div className="mt-8 flex justify-between items-end">
@@ -177,6 +172,12 @@ export default function InvoiceReceipt({
           <p>* Fees once paid are non-refundable</p>
           <p>* This is a computer-generated receipt</p>
         </div>
+
+        {remaining === 0 && (
+          <div className="border-4 border-green-500 px-6 py-2 text-5xl font-bold text-green-500 opacity-20">
+            PAID
+          </div>
+        )}
 
         <div className="text-center flex flex-col items-center">
           <Image

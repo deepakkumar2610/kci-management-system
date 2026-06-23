@@ -26,7 +26,7 @@ export default function FeeForm({ refreshKey }: FeeFormProps) {
       installmentsAllowed: 1,
     },
 
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         setLoading(true);
 
@@ -39,6 +39,7 @@ export default function FeeForm({ refreshKey }: FeeFormProps) {
         alert(error?.response?.data?.message || "Failed to add fee!");
       } finally {
         setLoading(false);
+        setSubmitting(false);
       }
     },
   });
@@ -88,7 +89,7 @@ export default function FeeForm({ refreshKey }: FeeFormProps) {
             className="col-span-2 bg-orange-500 text-white p-2 rounded"
             disabled={loading}
           >
-            {loading ? "Saving..." : "Save Fees"}
+            {formik.isSubmitting ? "Saving..." : "Save Fees"}
           </button>
         </form>
       )}

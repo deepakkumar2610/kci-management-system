@@ -31,11 +31,11 @@ export default function PaymentHistory({ payments }: any) {
                     : "-"}
                 </td>
                 <td>₹{p?.amountPaid}</td>
-                <td>{p?.paymentMode}</td>
+                <td className="capitalize">{p?.paymentMode}</td>
                 <td>
                   <button
                     onClick={() => window.open(`/receipt/${p?._id}`)}
-                    className="text-blue-500 underline"
+                    className="text-blue-500 underline cursor-pointer"
                   >
                     View
                   </button>

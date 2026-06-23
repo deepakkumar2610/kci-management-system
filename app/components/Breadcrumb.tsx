@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 
 export default function Breadcrumb() {
   const pathname = usePathname();
@@ -9,21 +8,19 @@ export default function Breadcrumb() {
   const pathParts = pathname.split("/").filter(Boolean);
 
   return (
-    <nav className="text-sm mb-4 border p-5 rounded">
+    <nav className="text-sm mb-4 border p-5 rounded ">
       <ol className="flex items-center flex-wrap">
         {/* Home */}
         <li>
-          <Link
-            href="/dashboard"
-            className="text-gray-500 hover:text-[#f7931e]"
+          <div
+            // href="/dashboard"
+            className="text-gray-500"
           >
             Dashboard
-          </Link>
+          </div>
         </li>
 
         {pathParts.slice(1).map((part, index) => {
-          const href = "/" + pathParts.slice(0, index + 2).join("/");
-
           return (
             <li key={index} className="flex items-center">
               <span className="mx-2 text-gray-400">/</span>
@@ -33,12 +30,9 @@ export default function Breadcrumb() {
                   {part.replace("-", " ")}
                 </span>
               ) : (
-                <Link
-                  href={href}
-                  className="text-gray-500 hover:text-[#f7931e] capitalize"
-                >
+                <div className="text-gray-500 capitalize">
                   {part.replace("-", " ")}
-                </Link>
+                </div>
               )}
             </li>
           );

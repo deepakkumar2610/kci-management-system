@@ -26,7 +26,7 @@ export default function BatchForm({ refreshKey }: BatchFormProps) {
       timing: "",
     },
 
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         setLoading(true);
 
@@ -39,6 +39,7 @@ export default function BatchForm({ refreshKey }: BatchFormProps) {
         alert(error?.response?.data?.message || "Failed to add batch!");
       } finally {
         setLoading(false);
+        setSubmitting(false);
       }
     },
   });
@@ -82,7 +83,7 @@ export default function BatchForm({ refreshKey }: BatchFormProps) {
         className="col-span-2 bg-orange-500 text-white p-2 rounded"
         disabled={loading}
       >
-        {loading ? "Saving..." : "Save Batch"}
+        {formik.isSubmitting ? "Saving..." : "Save Batch"}
       </button>
     </form>
   );

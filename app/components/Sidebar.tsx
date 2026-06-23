@@ -96,7 +96,7 @@ export default function Sidebar() {
       </div>
 
       {/* SIDEBAR CONTENT */}
-      <div className="flex-1 flex flex-col justify-between overflow-auto">
+      <div className="flex-1 flex flex-col justify-between overflow-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-400 [&::-webkit-scrollbar-thumb]:rounded-full">
         {/* MENU */}
         <div className="mt-5">
           {menu.map(({ title, subMenu }) => (
@@ -107,7 +107,6 @@ export default function Sidebar() {
                 subMenu.map(({ name, icon: Icon, path }) => (
                   <div
                     key={path}
-                    // className="my-3 bg-amber-200 ps-5 py-2 me-5 rounded-e-full"
                     className={`mt-1 ps-5 py-2 me-5 rounded-e-full hover:bg-gray-500 ${
                       path === pathname
                         ? "bg-orange-100 hover:bg-orange-100"

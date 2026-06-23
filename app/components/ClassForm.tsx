@@ -24,7 +24,7 @@ export default function ClassForm({ onSuccessRefresh }: ClassFormProps) {
       board: Yup.string().required("Board is required"),
     }),
 
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         setLoading(true);
 
@@ -38,6 +38,7 @@ export default function ClassForm({ onSuccessRefresh }: ClassFormProps) {
         alert(error?.response?.data?.message || "Failed to add class");
       } finally {
         setLoading(false);
+        setSubmitting(false);
       }
     },
   });
@@ -86,7 +87,7 @@ export default function ClassForm({ onSuccessRefresh }: ClassFormProps) {
         className="col-span-2 bg-orange-500 text-white p-2 rounded"
         disabled={loading}
       >
-        {loading ? "Saving..." : "Save Class"}
+        {formik.isSubmitting ? "Saving..." : "Save Class"}
       </button>
     </form>
   );
