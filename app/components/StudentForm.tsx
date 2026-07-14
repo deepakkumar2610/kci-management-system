@@ -9,8 +9,14 @@ import apiHandler from "@/lib/api";
 import InputField from "./InputField";
 import SelectField from "./SelectField";
 
+type Class = {
+  _id: string;
+  gradeName: string;
+  type: "school" | "junior-college" | "entrance";
+};
+
 export default function StudentForm() {
-  const [classes, setClasses] = useState([]);
+  const [classes, setClasses] = useState<Class[]>([]);
   const [batches, setBatches] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [fees, setFees] = useState<any>(null);
@@ -91,6 +97,12 @@ export default function StudentForm() {
     formik.setFieldValue("subjectIds", selected);
   };
 
+  const selectedClass = classes.find(
+    (cls) => cls._id === formik.values.classId,
+  );
+
+  const isJuniorCollege = selectedClass?.type === "junior-college";
+
   return (
     <div className="p-6 bg-white shadow rounded space-y-4">
       <h2 className="text-xl font-semibold">Add Student</h2>
@@ -132,7 +144,7 @@ export default function StudentForm() {
         {/* Medium */}
         <input
           name="medium"
-          placeholder="Medium"
+          placeholder={!isJuniorCollege ? "Medium" : "Stream"}
           onChange={formik.handleChange}
           value={formik.values.medium}
           className="p-2 border rounded"

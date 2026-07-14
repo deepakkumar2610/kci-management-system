@@ -56,6 +56,11 @@ export default function InvoiceReceipt({
 }: Props) {
   const fees = student?.fees;
   const amountPaid = payment?.amountPaid;
+
+  const isJuniorCollege =
+    student?.classId?.name?.includes("11th") ||
+    student?.classId?.name?.includes("12th");
+
   return (
     <div className="relative z-10 max-w-3xl mx-auto p-6 mt-5   bg-white text-black border rounded-lg">
       {/* HEADER */}
@@ -104,7 +109,7 @@ export default function InvoiceReceipt({
             <b>Class:</b> {student?.classId?.name || "-"}
           </p>
           <p>
-            <b>Medium:</b> {student?.medium}
+            <b>{!isJuniorCollege ? "Medium:" : "Stream:"}</b> {student?.medium}
           </p>
           <p>
             <b>Parent Name:</b> {student?.parentName}
