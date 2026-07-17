@@ -43,32 +43,31 @@ export default function StudentsFeeDetailsPage() {
       {loading ? (
         <div className="text-2xl text-black">Loading...</div>
       ) : (
-        <table className="w-full border mt-4">
+        <table className="w-full mt-4 border border-gray-300 rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gray-100 border-b">
-              <th className="p-2 float-left">Name</th>
-              <th className="p-2">Contact</th>
-              <th className="p-2">Action</th>
+              <th className="p-3 text-center w-20">Sr. No.</th>
+              <th className="p-3 text-left">Name</th>
+              <th className="p-3 text-center">Contact</th>
+              <th className="p-3 text-center w-32">Action</th>
             </tr>
           </thead>
 
           <tbody>
-            {students.map((student) => (
-              <tr key={student._id} className="text-center border-b">
-                <td
-                  className="p-2 float-left
-              "
-                >
-                  {student.fullName}
-                </td>
-                <td className="p-2">{student.contact}</td>
-
-                <td className="p-2">
+            {students.map((student, index) => (
+              <tr
+                key={student._id}
+                className="border-b hover:bg-gray-50 transition-colors"
+              >
+                <td className="p-3 text-center">{index + 1}</td>
+                <td className="p-3">{student.fullName}</td>
+                <td className="p-3 text-center">{student.contact}</td>
+                <td className="p-3 text-center">
                   <button
                     onClick={() =>
                       router.push(`/dashboard/students/${student._id}`)
                     }
-                    className="text-blue-500 underline"
+                    className="text-blue-600 hover:text-blue-800 underline cursor-pointer"
                   >
                     View
                   </button>
