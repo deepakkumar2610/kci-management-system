@@ -56,15 +56,56 @@ export async function POST(req: NextRequest) {
 }
 
 // 📥 GET ALL STUDENTS
+// export async function GET(req: NextRequest) {
+//   try {
+//     await connectDB();
+
+//     const search = req.nextUrl.searchParams.get("search");
+//     const page = Number(searchParams.get("page")) || 1;
+//     const limit = Number(searchParams.get("limit")) || 10;
+
+//     let query: any = {};
+
+//     const cleanSearch = search?.trim();
+
+//     if (cleanSearch) {
+//       query = {
+//         $or: [
+//           { fullName: { $regex: cleanSearch, $options: "i" } },
+//           { contact: { $regex: cleanSearch, $options: "i" } },
+//         ],
+//       };
+//     }
+
+//     const students = await Student.find(query)
+//       .populate("classId")
+//       .populate("batchId")
+//       .populate("subjectIds");
+//       .skip(skip)
+//         .limit(limit)
+//         .sort({ createdAt: -1 }),
+
+//     return NextResponse.json({ success: true, data: students });
+//   } catch (error) {
+//     console.log("error: ", error);
+//     return NextResponse.json({ success: false }, { status: 500 });
+//   }
+// }
+
+// 📥 GET ALL STUDENTS
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const search = req.nextUrl.searchParams.get("search");
+    const searchParams = req.nextUrl.searchParams;
+
+    const search = searchParams.get("search") || "";
+    const page = Number(searchParams.get("page")) || 1;
+    const limit = Number(searchParams.get("limit")) || 10;
+
+    const cleanSearch = search.trim();
 
     let query: any = {};
-
-    const cleanSearch = search?.trim();
 
     if (cleanSearch) {
       query = {
@@ -75,14 +116,43 @@ export async function GET(req: NextRequest) {
       };
     }
 
-    const students = await Student.find(query)
-      .populate("classId")
-      .populate("batchId")
-      .populate("subjectIds");
+    // Calculate how many documents to skip
+    const skip = (page - 1) * limit;
 
-    return NextResponse.json({ success: true, data: students });
+    // Get students + total count
+    const [students, totalStudents] = await Promise.all([
+      Student.find(query)
+        .populate("classId")
+        .populate("batchId")
+        .populate("subjectIds")
+        .skip(skip)
+        .limit(limit),
+      // .sort({ createdAt: -1 }),
+
+      Student.countDocuments(query),
+    ]);
+
+    const totalPages = Math.ceil(totalStudents / limit);
+
+    return NextResponse.json({
+      success: true,
+      data: students,
+      pagination: {
+        currentPage: page,
+        limit,
+        totalStudents,
+        totalPages,
+      },
+    });
   } catch (error) {
     console.log("error: ", error);
-    return NextResponse.json({ success: false }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to fetch students",
+      },
+      { status: 500 },
+    );
   }
 }
