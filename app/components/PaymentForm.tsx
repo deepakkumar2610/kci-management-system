@@ -9,7 +9,7 @@ export default function PaymentForm() {
   const [students, setStudents] = useState<any[]>([]);
 
   useEffect(() => {
-    apiHandler.get("/students").then((res) => {
+    apiHandler.get("/students?all=true").then((res) => {
       setStudents(res.data.data);
     });
   }, []);

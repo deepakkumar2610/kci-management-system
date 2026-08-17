@@ -103,9 +103,25 @@ export async function GET(req: NextRequest) {
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 10;
 
+    const all = searchParams.get("all") === "true";
+
     const cleanSearch = search.trim();
 
     let query: any = {};
+
+    // For dropdown - return all students
+    if (all) {
+      const students = await Student.find(query)
+        .populate("classId")
+        .populate("batchId")
+        .populate("subjectIds")
+        .sort({ fullName: 1 });
+
+      return NextResponse.json({
+        success: true,
+        data: students,
+      });
+    }
 
     if (cleanSearch) {
       query = {
