@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import apiHandler from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { BeatLoader } from "react-spinners";
+import { LoaderCircle } from "lucide-react";
 
 export default function StudentsFeeDetailsPage() {
   const [students, setStudents] = useState<any[]>([]);
@@ -15,6 +16,7 @@ export default function StudentsFeeDetailsPage() {
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalStudents, setTotalStudents] = useState(0);
+  const [loadingStudentId, setLoadingStudentId] = useState(null);
 
   const router = useRouter();
 
@@ -98,31 +100,42 @@ export default function StudentsFeeDetailsPage() {
               <th className="p-3 text-center w-20">Sr. No.</th>
               <th className="p-3 text-left">Name</th>
               <th className="p-3 text-center">Contact</th>
-              <th className="p-3 text-center w-32">Action</th>
+              <th className="p-3 text-center w-32">Details</th>
             </tr>
           </thead>
 
           <tbody>
-            {students.map((student, index) => (
-              <tr
-                key={student._id}
-                className="border-b hover:bg-gray-50 transition-colors"
-              >
-                <td className="p-3 text-center">{index + 1}</td>
-                <td className="p-3">{student.fullName}</td>
-                <td className="p-3 text-center">{student.contact}</td>
-                <td className="p-3 text-center">
-                  <button
-                    onClick={() =>
-                      router.push(`/dashboard/students/${student._id}`)
-                    }
-                    className="text-blue-600 hover:text-blue-800 underline cursor-pointer"
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {students.map((student, index) => {
+              console.log("student: ", student);
+              return (
+                <tr
+                  key={student._id}
+                  className="border-b hover:bg-gray-50 transition-colors"
+                >
+                  <td className="p-3 text-center">{index + 1}</td>
+                  <td className="p-3">{student.fullName}</td>
+                  <td className="p-3 text-center">{student.contact}</td>
+                  <td className="p-3 text-center">
+                    <button
+                      onClick={() => {
+                        setLoadingStudentId(student._id);
+                        router.push(`/dashboard/students/${student._id}`);
+                      }}
+                      disabled={loadingStudentId === student._id}
+                      className="flex items-center justify-center gap-1 text-blue-600 hover:text-blue-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {loadingStudentId === student._id ? (
+                        <>
+                          <BeatLoader color="#f7931e" />
+                        </>
+                      ) : (
+                        "View"
+                      )}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}

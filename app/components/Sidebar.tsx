@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import brandLogo from "@/public/assets/images/kci-institute-brand-logo.png";
+import brandLogoWithName from "@/public/assets/images/kci-institute-brand-logo.png";
+import brandLogo from "@/public/assets/images/logo.png";
 
 import { MdDashboard } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
@@ -15,8 +16,11 @@ import { TbReceiptRupeeFilled } from "react-icons/tb";
 import apiHandler from "@/lib/api";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 
 export default function Sidebar() {
+  const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -89,10 +93,19 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="h-screen flex flex-col">
+    <div
+      className={`h-screen flex flex-col bg-[#0b2c5f] text-white transition-all duration-300 ${
+        collapsed ? "w-20" : "w-87.5"
+      }`}
+    >
       {/* TOP LOGO */}
       <div className="bg-orange-100 py-2 flex w-full justify-center-safe">
-        <Image src={brandLogo} alt="kci-branding-logo" height={80} />
+        <Image
+          src={collapsed ? brandLogo : brandLogoWithName}
+          alt="kci-branding-logo"
+          height={80}
+          className={`transition-all duration-300 ${collapsed ? "w-12" : ""}`}
+        />
       </div>
 
       {/* SIDEBAR CONTENT */}
@@ -101,35 +114,49 @@ export default function Sidebar() {
         <div className="mt-5">
           {menu.map(({ title, subMenu }) => (
             <div key={title} className="mb-5">
-              <h3 className="text-gray-400 px-4 mb-3">{title}</h3>
+              {/* SECTION TITLE */}
+              {!collapsed && (
+                <h3 className="text-gray-400 px-4 mb-3">{title}</h3>
+              )}
 
               {subMenu &&
                 subMenu.map(({ name, icon: Icon, path }) => (
                   <div
                     key={path}
-                    className={`mt-1 ps-5 py-2 me-5 rounded-e-full hover:bg-gray-500 ${
-                      path === pathname
-                        ? "bg-orange-100 hover:bg-orange-100"
-                        : ""
-                    }`}
+                    className={`mt-1 py-2 rounded-e-full
+                      hover:bg-gray-500
+                      ${collapsed ? "mx-2 rounded-full" : "ps-5 me-5"}
+                      ${
+                        path === pathname
+                          ? "bg-orange-100 hover:bg-orange-100"
+                          : ""
+                      }`}
                   >
-                    <Link href={path} className="flex items-center">
+                    <Link
+                      href={path}
+                      className={`flex items-center ${
+                        collapsed ? "justify-center" : ""
+                      }`}
+                    >
                       <Icon
-                        size={30}
+                        size={collapsed ? 22 : 28}
                         className={`${
                           path === pathname ? "text-[#ffa200]" : "text-white"
                         }`}
                       />
 
-                      <span
-                        className={`ms-5 text-lg ${
-                          path === pathname
-                            ? "text-[#ffa200] font-bold"
-                            : "text-gray-200"
-                        }`}
-                      >
-                        {name}
-                      </span>
+                      {/* MENU TEXT */}
+                      {!collapsed && (
+                        <span
+                          className={`ms-5 text-lg ${
+                            path === pathname
+                              ? "text-[#ffa200] font-bold"
+                              : "text-gray-200"
+                          }`}
+                        >
+                          {name}
+                        </span>
+                      )}
                     </Link>
                   </div>
                 ))}
@@ -137,15 +164,47 @@ export default function Sidebar() {
           ))}
         </div>
 
-        {/* LOGOUT (BOTTOM) */}
-        <div className=" border-t pt-5 mb-5">
-          <h2
-            onClick={handleLogout}
-            className="cursor-pointer flex items-center justify-center text-white hover:text-red-400 transition"
-          >
-            <MdLogout size={25} />
-            <span className="ms-2">Logout</span>
-          </h2>
+        {/* LOGOUT */}
+        <div className="border-t border-white/20 text-center ">
+          {!collapsed && (
+            <div className="flex items-center justify-between  mx-5 py-4">
+              <button
+                onClick={handleLogout}
+                className={`cursor-pointer flex items-center
+                text-white hover:text-red-400 transition
+                `}
+              >
+                <MdLogout size={25} />
+
+                {!collapsed && <span className="ms-2">Logout</span>}
+              </button>
+
+              <button
+                onClick={() => setCollapsed(!collapsed)}
+                className="cursor-pointer"
+              >
+                {collapsed ? (
+                  <PanelLeftOpen size={25} />
+                ) : (
+                  <PanelLeftClose size={25} />
+                )}
+              </button>
+            </div>
+          )}
+
+          {/* COLLAPSE BUTTON */}
+          {collapsed && (
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="cursor-pointer py-4"
+            >
+              {collapsed ? (
+                <PanelLeftOpen size={25} />
+              ) : (
+                <PanelLeftClose size={25} />
+              )}
+            </button>
+          )}
         </div>
       </div>
     </div>

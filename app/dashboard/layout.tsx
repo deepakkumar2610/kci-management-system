@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen">
       {/* LEFT SIDE */}
-      <div className="w-87.5 bg-[#0b2c5f] text-white">
+      <div className=" bg-[#0b2c5f] text-white">
         <Sidebar />
       </div>
       {/* RIGHT SIDE */}
