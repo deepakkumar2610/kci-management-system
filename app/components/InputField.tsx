@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function InputField({ formik, name, placeholder }: any) {
   return (
     <div>

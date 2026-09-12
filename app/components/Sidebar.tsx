@@ -12,6 +12,8 @@ import { FaAddressCard } from "react-icons/fa";
 import { BiDetail } from "react-icons/bi";
 import { MdAddCard } from "react-icons/md";
 import { TbReceiptRupeeFilled } from "react-icons/tb";
+import { LuCalendarPlus } from "react-icons/lu";
+import { LuCalendarClock } from "react-icons/lu";
 
 import apiHandler from "@/lib/api";
 import Link from "next/link";
@@ -62,6 +64,26 @@ export default function Sidebar() {
           name: "Student Details",
           icon: FaAddressCard,
           path: "/dashboard/students/details",
+        },
+      ],
+    },
+    {
+      title: "Manage Attendance",
+      subMenu: [
+        {
+          name: "Take Attendance",
+          icon: LuCalendarPlus,
+          path: "/dashboard/attendance",
+        },
+        {
+          name: "Attendance History",
+          icon: LuCalendarClock,
+          path: "/dashboard/attendance/history",
+        },
+        {
+          name: "Attendance Report",
+          icon: FaAddressCard,
+          path: "/dashboard/attendance/report",
         },
       ],
     },
