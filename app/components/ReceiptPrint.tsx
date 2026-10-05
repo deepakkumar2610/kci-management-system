@@ -21,10 +21,20 @@ export default function ReceiptPrint({
   remaining,
 }: Props) {
   const printRef = useRef<HTMLDivElement>(null);
+  const { installmentNumber } = payment;
+
+  const firstName = student?.fullName?.trim().split(/\s+/)[0] || "";
+
+  const installmentText = (number: number) => {
+    if (number === 1) return "1st";
+    if (number === 2) return "2nd";
+    if (number === 3) return "3rd";
+    return `${number}th`;
+  };
 
   const handlePrint = useReactToPrint({
     contentRef: printRef,
-    documentTitle: `Receipt-${payment._id}`,
+    documentTitle: `${firstName}_${installmentText(installmentNumber)}_installment_receipt`,
   });
 
   return (

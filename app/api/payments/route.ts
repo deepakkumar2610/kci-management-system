@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
       ...body,
       receiptNumber,
     });
-
     return Response.json(payment);
   } catch (error) {
     console.log("PAYMENT ERROR:", error);

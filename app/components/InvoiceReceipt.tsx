@@ -13,6 +13,7 @@ type Installment = {
 
 type Payment = {
   amountPaid: number;
+  installmentNumber: number;
   receiptNumber: string;
   paymentMode?: string;
   txnId?: string;
