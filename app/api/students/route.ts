@@ -56,43 +56,6 @@ export async function POST(req: NextRequest) {
 }
 
 // 📥 GET ALL STUDENTS
-// export async function GET(req: NextRequest) {
-//   try {
-//     await connectDB();
-
-//     const search = req.nextUrl.searchParams.get("search");
-//     const page = Number(searchParams.get("page")) || 1;
-//     const limit = Number(searchParams.get("limit")) || 10;
-
-//     let query: any = {};
-
-//     const cleanSearch = search?.trim();
-
-//     if (cleanSearch) {
-//       query = {
-//         $or: [
-//           { fullName: { $regex: cleanSearch, $options: "i" } },
-//           { contact: { $regex: cleanSearch, $options: "i" } },
-//         ],
-//       };
-//     }
-
-//     const students = await Student.find(query)
-//       .populate("classId")
-//       .populate("batchId")
-//       .populate("subjectIds");
-//       .skip(skip)
-//         .limit(limit)
-//         .sort({ createdAt: -1 }),
-
-//     return NextResponse.json({ success: true, data: students });
-//   } catch (error) {
-//     console.log("error: ", error);
-//     return NextResponse.json({ success: false }, { status: 500 });
-//   }
-// }
-
-// 📥 GET ALL STUDENTS
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
@@ -100,6 +63,9 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
 
     const search = searchParams.get("search") || "";
+    const classId = searchParams.get("classId");
+    const batchId = searchParams.get("batchId");
+
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 10;
 
@@ -108,6 +74,16 @@ export async function GET(req: NextRequest) {
     const cleanSearch = search.trim();
 
     let query: any = {};
+
+    // 🔹 Class filter
+    if (classId) {
+      query.classId = classId;
+    }
+
+    // 🔹 Batch filter
+    if (batchId) {
+      query.batchId = batchId;
+    }
 
     // For dropdown - return all students
     if (all) {
