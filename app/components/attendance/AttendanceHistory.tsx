@@ -78,14 +78,25 @@ export default function AttendanceHistoryComponent() {
       .then((res) => setBatches(res.data.data));
   }, [formik.values.classId]);
 
+  const getLocalDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
   return (
     <div className="p-6">
       {/* Page Title */}
-      <h1 className="mb-6 text-2xl font-bold text-[#0b2c5f]">
+      <h2 className="mb-6 text-xl font-bold text-[#0b2c5f]">
         Attendance History
-      </h1>
+      </h2>
 
-      <form onSubmit={formik.handleSubmit} className="">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm md:p-5 print:hidden"
+      >
         <div className="grid grid-cols-3 gap-4">
           {/* Date */}
           <div>
@@ -115,62 +126,81 @@ export default function AttendanceHistoryComponent() {
             <SelectField formik={formik} name="batchId" options={batches} />
           </div>
         </div>
-
-        {/* Search Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="mt-5 rounded-lg bg-[#f7931e] px-5 py-2 text-white hover:bg-orange-600 disabled:opacity-50"
-        >
-          {loading ? "Loading..." : "Search"}
-        </button>
-
-        {/* Attendance Table */}
-        <div className="mt-6 rounded-xl bg-white p-5 shadow-sm">
-          {attendance.length === 0 || !attendanceExist ? (
-            <p className="py-6 text-center text-gray-500">
-              No attendance records found.
-            </p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="px-4 py-3">Sr. No.</th>
-                    <th className="px-4 py-3">Student Name</th>
-                    <th className="px-4 py-3">Date</th>
-                    <th className="px-4 py-3">Status</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {attendance.map((record, index) => (
-                    <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="px-4 py-3">{index + 1}</td>
-
-                      <td className="px-4 py-3 font-medium">{record?.name}</td>
-
-                      <td className="px-4 py-3">{formik.values.date}</td>
-
-                      <td className="px-4 py-3">
-                        <span
-                          className={
-                            record.status === "Present"
-                              ? "font-medium text-green-600"
-                              : "font-medium text-red-600"
-                          }
-                        >
-                          {record.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+        <div className="mt-5 flex flex-wrap gap-3">
+          {/* Search Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-5 rounded-lg bg-[#f7931e] px-5 py-2 text-white hover:bg-orange-600 disabled:opacity-50"
+          >
+            {loading ? "Loading..." : "Search"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              formik.resetForm({
+                values: {
+                  date: getLocalDate(),
+                  classId: "",
+                  batchId: "",
+                },
+              });
+              setAttendance([]);
+            }}
+            className="mt-5 rounded-lg border border-gray-300 px-5 py-2 font-medium text-gray-700 hover:bg-gray-100"
+          >
+            Reset
+          </button>
         </div>
       </form>
+
+      {/* Attendance Table */}
+      <div className="mt-6 rounded-xl bg-white p-5 shadow-sm">
+        {attendance.length === 0 || !attendanceExist ? (
+          <p className="py-6 text-center text-gray-500">
+            {classes.length
+              ? "Select appropriate filter to load history."
+              : "No attendance records found."}
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b bg-gray-50">
+                  <th className="px-4 py-3">Sr. No.</th>
+                  <th className="px-4 py-3">Student Name</th>
+                  <th className="px-4 py-3">Date</th>
+                  <th className="px-4 py-3">Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {attendance.map((record, index) => (
+                  <tr key={index} className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-3">{index + 1}</td>
+
+                    <td className="px-4 py-3 font-medium">{record?.name}</td>
+
+                    <td className="px-4 py-3">{formik.values.date}</td>
+
+                    <td className="px-4 py-3">
+                      <span
+                        className={
+                          record.status === "Present"
+                            ? "font-medium text-green-600"
+                            : "font-medium text-red-600"
+                        }
+                      >
+                        {record.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

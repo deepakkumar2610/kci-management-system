@@ -192,7 +192,7 @@ export default function AttendanceForm() {
 
   return (
     <div className="p-6 bg-white shadow rounded space-y-4">
-      <h2 className="text-xl font-semibold">Add Student</h2>
+      <h2 className="mb-6 text-xl font-bold text-[#0b2c5f]">Attendance</h2>
 
       <form onSubmit={formik.handleSubmit} className="grid grid-cols-3 gap-4">
         {/* Date */}
