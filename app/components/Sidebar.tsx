@@ -38,6 +38,26 @@ export default function Sidebar() {
       ],
     },
     {
+      title: "Manage Attendance",
+      subMenu: [
+        {
+          name: "Take Attendance",
+          icon: LuCalendarPlus,
+          path: "/dashboard/attendance",
+        },
+        {
+          name: "Attendance History",
+          icon: LuCalendarClock,
+          path: "/dashboard/attendance/history",
+        },
+        {
+          name: "Attendance Report",
+          icon: FaAddressCard,
+          path: "/dashboard/attendance/report",
+        },
+      ],
+    },
+    {
       title: "Manage Class",
       subMenu: [
         {
@@ -67,26 +87,7 @@ export default function Sidebar() {
         },
       ],
     },
-    {
-      title: "Manage Attendance",
-      subMenu: [
-        {
-          name: "Take Attendance",
-          icon: LuCalendarPlus,
-          path: "/dashboard/attendance",
-        },
-        {
-          name: "Attendance History",
-          icon: LuCalendarClock,
-          path: "/dashboard/attendance/history",
-        },
-        {
-          name: "Attendance Report",
-          icon: FaAddressCard,
-          path: "/dashboard/attendance/report",
-        },
-      ],
-    },
+
     {
       title: "Manage Fees",
       subMenu: [

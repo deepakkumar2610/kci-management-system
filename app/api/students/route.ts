@@ -65,27 +65,60 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search") || "";
     const classId = searchParams.get("classId");
     const batchId = searchParams.get("batchId");
+    const grade = searchParams.get("grade");
 
-    const page = Number(searchParams.get("page")) || 1;
-    const limit = Number(searchParams.get("limit")) || 10;
+    const page = Math.max(1, Number(searchParams.get("page")) || 1);
+    const limit = Math.max(1, Number(searchParams.get("limit")) || 10);
 
     const all = searchParams.get("all") === "true";
 
     const cleanSearch = search.trim();
 
-    let query: any = {};
+    const query: any = {};
 
-    // 🔹 Class filter
+    // 🔹 Class ID filter
     if (classId) {
       query.classId = classId;
     }
 
-    // 🔹 Batch filter
+    // 🔹 Batch ID filter
     if (batchId) {
       query.batchId = batchId;
     }
 
-    // For dropdown - return all students
+    // 🔹 Grade filter
+    if (grade) {
+      const ClassModel = (await import("@/models/Class")).default;
+
+      const selectedClass = await ClassModel.findOne({
+        name: grade,
+      }).select("_id");
+
+      if (!selectedClass) {
+        return NextResponse.json({
+          success: true,
+          data: [],
+          pagination: {
+            currentPage: page,
+            limit,
+            totalStudents: 0,
+            totalPages: 0,
+          },
+        });
+      }
+
+      query.classId = selectedClass._id;
+    }
+
+    // 🔹 Search filter
+    if (cleanSearch) {
+      query.$or = [
+        { fullName: { $regex: cleanSearch, $options: "i" } },
+        { contact: { $regex: cleanSearch, $options: "i" } },
+      ];
+    }
+
+    // 🔹 Return all students (for dropdowns)
     if (all) {
       const students = await Student.find(query)
         .populate("classId")
@@ -99,27 +132,17 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    if (cleanSearch) {
-      query = {
-        $or: [
-          { fullName: { $regex: cleanSearch, $options: "i" } },
-          { contact: { $regex: cleanSearch, $options: "i" } },
-        ],
-      };
-    }
-
-    // Calculate how many documents to skip
+    // 🔹 Pagination
     const skip = (page - 1) * limit;
 
-    // Get students + total count
     const [students, totalStudents] = await Promise.all([
       Student.find(query)
         .populate("classId")
         .populate("batchId")
         .populate("subjectIds")
+        .sort({ fullName: 1 })
         .skip(skip)
         .limit(limit),
-      // .sort({ createdAt: -1 }),
 
       Student.countDocuments(query),
     ]);
@@ -137,7 +160,7 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.log("error: ", error);
+    console.error("Student GET API Error:", error);
 
     return NextResponse.json(
       {
