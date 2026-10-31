@@ -8,6 +8,7 @@ import { BarLoader, BeatLoader, ClipLoader } from "react-spinners";
 export default function StudentsDetailsPage() {
   const [students, setStudents] = useState<any[]>([]);
   const [search, setSearch] = useState("");
+  const [grade, setGrade] = useState("");
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -16,31 +17,22 @@ export default function StudentsDetailsPage() {
 
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const delay = setTimeout(async () => {
-  //     try {
-  //       setLoading(true);
-  //       const res = await apiHandler.get(`/students?search=${search}`);
-  //       setStudents(res.data.data);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }, 400);
-
-  //   return () => clearTimeout(delay);
-  // }, [search]);
-
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         setLoading(true);
 
-        const response = await apiHandler.get(
-          `/students?search=${encodeURIComponent(
-            search,
-          )}&page=${page}&limit=${limit}`,
-        );
+        const params = new URLSearchParams({
+          search,
+          page: String(page),
+          limit: String(limit),
+        });
+
+        if (grade) {
+          params.set("grade", grade);
+        }
+
+        const response = await apiHandler.get(`/students?${params.toString()}`);
 
         setStudents(response.data.data);
         setTotalPages(response.data.pagination.totalPages);
@@ -53,7 +45,9 @@ export default function StudentsDetailsPage() {
     };
 
     fetchStudents();
-  }, [search, page, limit]);
+  }, [search, grade, page, limit]);
+
+  console.log(students);
 
   return (
     <div className="p-6 space-y-4">
@@ -67,6 +61,25 @@ export default function StudentsDetailsPage() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+
+      <select
+        value={grade}
+        onChange={(e) => {
+          setGrade(e.target.value);
+          setPage(1);
+        }}
+        className="w-full rounded-md border bg-white px-3 py-2 sm:w-48"
+      >
+        <option value="">All Grades</option>
+        <option value="5th">5th</option>
+        <option value="6th">6th</option>
+        <option value="7th">7th</option>
+        <option value="8th">8th</option>
+        <option value="9th">9th</option>
+        <option value="10th">10th</option>
+        <option value="11th (Science)">11th (Science)</option>
+        <option value="12th (Science)">12th (Science)</option>
+      </select>
 
       <div className="flex items-center gap-2 float-end">
         <label className="text-sm text-gray-600">Rows per page:</label>
