@@ -13,6 +13,11 @@ const paymentSchema = new Schema(
       required: true,
     },
 
+    installmentNumber: {
+      type: Number,
+      required: true,
+    },
+
     paymentMode: String,
     txnId: String,
 
