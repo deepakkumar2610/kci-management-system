@@ -154,7 +154,7 @@ export default function AttendanceForm() {
         });
 
         const res = await apiHandler.get(
-          `/students?classId=${classId}&batchId=${batchId}`,
+          `/students?all=true&classId=${classId}&batchId=${batchId}`,
         );
 
         const studentData = res.data.data || [];
