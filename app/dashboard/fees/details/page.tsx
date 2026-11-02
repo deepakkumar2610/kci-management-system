@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import apiHandler from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { BeatLoader } from "react-spinners";
-import { LoaderCircle } from "lucide-react";
 
 export default function StudentsFeeDetailsPage() {
   const [students, setStudents] = useState<any[]>([]);
@@ -19,21 +18,6 @@ export default function StudentsFeeDetailsPage() {
   const [loadingStudentId, setLoadingStudentId] = useState(null);
 
   const router = useRouter();
-
-  // useEffect(() => {
-  //   const delay = setTimeout(async () => {
-  //     try {
-  //       setLoading(true);
-  //       const res = await apiHandler.get(`/students?search=${search}`);
-  //       setStudents(res.data.data);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }, 400);
-
-  //   return () => clearTimeout(delay);
-  // }, [search]);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -60,7 +44,7 @@ export default function StudentsFeeDetailsPage() {
   }, [search, page, limit]);
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-4">
       <h2 className="text-xl font-semibold"> </h2>
 
       {/* 🔍 Search */}
@@ -100,7 +84,7 @@ export default function StudentsFeeDetailsPage() {
               <th className="p-3 text-center w-20">Sr. No.</th>
               <th className="p-3 text-left">Name</th>
               <th className="p-3 text-center">Contact</th>
-              <th className="p-3 text-center w-32">Details</th>
+              <th className="p-3 text-center">Details</th>
             </tr>
           </thead>
 
@@ -122,7 +106,7 @@ export default function StudentsFeeDetailsPage() {
                         router.push(`/dashboard/students/${student._id}`);
                       }}
                       disabled={loadingStudentId === student._id}
-                      className="flex items-center justify-center gap-1 text-blue-600 hover:text-blue-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="gap-1 text-blue-600 hover:text-blue-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {loadingStudentId === student._id ? (
                         <>
@@ -144,7 +128,7 @@ export default function StudentsFeeDetailsPage() {
         <button
           onClick={() => setPage((prev) => prev - 1)}
           disabled={page === 1}
-          className="px-3 py-2 border rounded-md disabled:opacity-50"
+          className="px-3 py-2 border rounded-md disabled:opacity-50 cursor-pointer"
         >
           Previous
         </button>
@@ -154,7 +138,7 @@ export default function StudentsFeeDetailsPage() {
             <button
               key={pageNumber}
               onClick={() => setPage(pageNumber)}
-              className={`px-3 py-2 border rounded-md ${
+              className={`px-3 py-2 border rounded-md cursor-pointer ${
                 page === pageNumber ? "bg-[#f7931e] text-white" : "bg-white"
               }`}
             >
@@ -166,7 +150,7 @@ export default function StudentsFeeDetailsPage() {
         <button
           onClick={() => setPage((prev) => prev + 1)}
           disabled={page === totalPages}
-          className="px-3 py-2 border rounded-md disabled:opacity-50"
+          className="px-3 py-2 border rounded-md disabled:opacity-50 cursor-pointer"
         >
           Next
         </button>
