@@ -589,6 +589,10 @@ export default function AttendanceReportComponent() {
             size: landscape;
             margin: 10mm;
           }
+
+          #attendance-report-print tfoot {
+            display: table-row-group;
+          }
         }
       `}</style>
     </div>
