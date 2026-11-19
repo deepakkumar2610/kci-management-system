@@ -65,6 +65,8 @@ export default function StudentForm() {
 
       alert("Student added ✅");
       formik.resetForm();
+      setSubjects([]);
+      setFees("");
     },
   });
 
@@ -104,8 +106,13 @@ export default function StudentForm() {
   const isJuniorCollege = selectedClass?.type === "junior-college";
 
   return (
-    <div className="p-6 bg-white shadow rounded space-y-4">
-      <h2 className="text-xl font-semibold">Add Student</h2>
+    <div className="space-y-4">
+      <div>
+        <h2 className="text-xl font-semibold text-[#0b2c5f]">Add Student</h2>
+        <p className="text-sm text-gray-500">
+          Manage classes, batches, subjects and fees.
+        </p>
+      </div>
 
       <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-4">
         <InputField formik={formik} name="fullName" placeholder="Full Name" />

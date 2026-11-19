@@ -85,7 +85,7 @@ export default function PaymentForm() {
         className="p-2 border rounded"
       />
 
-      <button className="col-span-2 bg-green-600 text-white p-2 rounded">
+      <button className="col-span-2 bg-[#f7931e] text-white p-2 rounded">
         Save Payment
       </button>
     </form>

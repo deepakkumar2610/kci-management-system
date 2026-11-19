@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import apiHandler from "@/lib/api";
+import { BeatLoader } from "react-spinners";
 
 type FeeFormProps = {
   refreshKey: number;
@@ -47,7 +48,9 @@ export default function FeeForm({ refreshKey }: FeeFormProps) {
   return (
     <>
       {loading ? (
-        <h1 className="text-xl">Loading...</h1>
+        <div className="flex justify-center items-center">
+          <BeatLoader color="#f7931e" />
+        </div>
       ) : (
         <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-4">
           {/* Class */}
@@ -86,7 +89,7 @@ export default function FeeForm({ refreshKey }: FeeFormProps) {
           />
 
           <button
-            className="col-span-2 bg-orange-500 text-white p-2 rounded"
+            className="col-span-2 bg-[#f7931e] text-white p-2 rounded"
             disabled={loading}
           >
             {formik.isSubmitting ? "Saving..." : "Save Fees"}

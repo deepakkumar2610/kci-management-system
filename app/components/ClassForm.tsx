@@ -84,7 +84,7 @@ export default function ClassForm({ onSuccessRefresh }: ClassFormProps) {
       </div>
 
       <button
-        className="col-span-2 bg-orange-500 text-white p-2 rounded"
+        className="col-span-2 bg-[#f7931e] text-white p-2 rounded"
         disabled={loading}
       >
         {formik.isSubmitting ? "Saving..." : "Save Class"}
