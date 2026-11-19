@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import apiHandler from "@/lib/api";
+import { BeatLoader } from "react-spinners";
 
 type BatchFormProps = {
   refreshKey: number;
@@ -45,7 +46,9 @@ export default function BatchForm({ refreshKey }: BatchFormProps) {
   });
 
   return loading ? (
-    <h1>Loading...</h1>
+    <div className="flex justify-center items-center ">
+      <BeatLoader color="#f7931e" />
+    </div>
   ) : (
     <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-4">
       {/* Class Dropdown */}
@@ -80,7 +83,7 @@ export default function BatchForm({ refreshKey }: BatchFormProps) {
       />
 
       <button
-        className="col-span-2 bg-orange-500 text-white p-2 rounded"
+        className="col-span-2 bg-[#f7931e] text-white p-2 rounded"
         disabled={loading}
       >
         {formik.isSubmitting ? "Saving..." : "Save Batch"}

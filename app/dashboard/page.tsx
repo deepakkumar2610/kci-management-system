@@ -9,7 +9,6 @@ import {
   Wallet,
   BadgeCheck,
   Clock,
-  Percent,
 } from "lucide-react";
 
 interface DashboardData {
@@ -147,7 +146,7 @@ export default function DashboardHome() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-[#0b2c5f]">  
+          <div className="flex items-center gap-2 text-[#0b2c5f]">
             <span className="text-xl font-bold">
               {loading ? "..." : `${dashboard.collectionPercentage}%`}
             </span>

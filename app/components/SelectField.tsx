@@ -5,6 +5,7 @@ export default function SelectField({
   options,
   labelKey = "name",
 }: any) {
+  console.log("name: ", name);
   return (
     <select
       name={name}
@@ -12,7 +13,7 @@ export default function SelectField({
       value={formik.values[name]}
       className="w-full p-2 border rounded"
     >
-      <option value="">Select</option>
+      <option value="">Select {name === "classId" ? "Grade" : "Batch"}</option>
       {options.map((opt: any) => (
         <option key={opt._id} value={opt._id}>
           {opt[labelKey]}

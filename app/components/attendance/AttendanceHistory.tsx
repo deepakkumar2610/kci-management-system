@@ -158,9 +158,7 @@ export default function AttendanceHistoryComponent() {
       <div className="mt-6 rounded-xl bg-white p-5 shadow-sm">
         {attendance.length === 0 || !attendanceExist ? (
           <p className="py-6 text-center text-gray-500">
-            {classes.length
-              ? "Select appropriate filter to load history."
-              : "No attendance records found."}
+            No attendance records found.
           </p>
         ) : (
           <div className="overflow-x-auto">

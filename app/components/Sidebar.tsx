@@ -14,6 +14,7 @@ import { MdAddCard } from "react-icons/md";
 import { TbReceiptRupeeFilled } from "react-icons/tb";
 import { LuCalendarPlus } from "react-icons/lu";
 import { LuCalendarClock } from "react-icons/lu";
+import { TbCalendarCheck } from "react-icons/tb";
 
 import apiHandler from "@/lib/api";
 import Link from "next/link";
@@ -52,7 +53,7 @@ export default function Sidebar() {
         },
         {
           name: "Attendance Report",
-          icon: FaAddressCard,
+          icon: TbCalendarCheck,
           path: "/dashboard/attendance/report",
         },
       ],
